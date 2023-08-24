@@ -1,6 +1,9 @@
 <script setup>
+import { integer } from "@vee-validate/rules";
 import { Form, Field, ErrorMessage } from "vee-validate";
-import { ref, reactive, computed } from "vue";
+import { ref, reactive, computed, inject } from "vue";
+
+const t = inject("t")
 
 
 const currentStep = ref(0);
@@ -23,7 +26,7 @@ const schemas = [
   }
 ];
 
-// currentSchema
+// currentSchema 目前要用的表
 const currentSchema = computed(() => {
   return schemas[currentStep.value];
 });
@@ -61,41 +64,41 @@ const onSubmit = (value)=>{
       v-slot="{ handleSubmit, values, resetForm }"
     >
       <template v-if="currentStep === 0">
-        <label for="name">Name</label>
-        <Field name="name" id="name" />
+        <label for="name">{{ t('page1.name') }}</label>
+        <Field name="name" id="name" :label="t('page1.name')"/>
         <ErrorMessage name="name" />
 
-        <label for="email">Email</label>
-        <Field name="email" id="email" type="email" />
+        <label for="email">{{ t('page1.email') }}</label>
+        <Field name="email" id="email" type="email" :label="t('page1.email')" />
         <ErrorMessage name="email" />
       </template>
 
       <template v-if="currentStep === 1">
-        <label for="password">Password</label>
-        <Field name="password" type="password" id="password" />
+        <label for="password">{{ t('page1.password') }}</label>
+        <Field name="password" type="password" id="password" :label="t('page1.password')" />
         <ErrorMessage name="password" />
 
-        <label for="confirmation">Confirm Password</label>
-        <Field name="confirmPassword" type="password" id="confirmation" />
+        <label for="confirmation">{{ t('page1.confirmPassword') }}</label>
+        <Field name="confirmPassword" type="password" id="confirmation" :label="t('page1.confirmPassword')" />
         <ErrorMessage name="confirmPassword" />
       </template>
 
       <template v-if="currentStep === 2">
-        <label for="address">Address</label>
-        <Field as="textarea" name="address" id="address" />
+        <label for="address">{{ t('page1.address') }}</label>
+        <Field as="textarea" name="address" id="address" :label="t('page1.address')"/>
         <ErrorMessage name="address" />
 
-        <label for="postalCode">Postal Code</label>
-        <Field name="postalCode" id="postalCode" />
+        <label for="postalCode">{{ t('page1.postalCode') }}</label>
+        <Field name="postalCode" id="postalCode" :label="t('page1.postalCode')"/>
         <ErrorMessage name="postalCode" />
       </template>
 
       <template v-if="currentStep === 3">
-        <label for="terms">Agree to terms and conditions</label>
+        <label for="terms">{{t('page1.Agree to terms and conditions')}}</label>
         <!-- 為何要  :value="true"-->
         <!-- 因為當 input 為 checkbox時， 默認的 value 是 "on"。 checked 屬性，才會跟著是否被摳選，值為 true / false-->
-        <!-- Form v-slot 接的值都是 value。 不想要顯示的值是 "on"， 所以從新綁定 value 屬性 -->
-        <Field name="terms" type="checkbox" id="terms" :value="'true'" />
+        <!-- Form Field v-slot 接的值都是 value。 不想要顯示的值是 "on"， 所以從新綁定 value 屬性 -->
+        <Field name="terms" type="checkbox" id="terms" :value="'true'" :label="t('page1.Agree to terms and conditions')"/>
         <ErrorMessage name="terms" />
       </template>
 

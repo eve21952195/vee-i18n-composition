@@ -11,7 +11,11 @@
       "message": "訊息內容",
       "upload": "上傳 {language}",
       "picture": "照片",
-      "password": "密碼"
+      "password": "密碼",
+      "confirmPassword": "确认密码",
+      "address": "地址",
+      "postalCode": "邮递区号",
+      "Agree to terms and conditions":"同意條款和條件"
     },
     "common": {
       "messages": {

@@ -1,6 +1,9 @@
 <script setup>
+import { inject } from "vue"
 import * as yup from "yup";
 import { useForm, useField } from "vee-validate";
+
+const t = inject("t")
 
 // yup rules
 const schema = yup.object({
@@ -18,15 +21,16 @@ const { values, errors, defineInputBinds, handleSubmit } = useForm({
   validationSchema: veeSchema,
 });
 
+
 // values 物件，会跟着 input输入的值变动 {email: xxx}
 // defineInputBinds("栏位字段名称") 方法返回一个物件。 {value: xxx}
 const email = defineInputBinds("email");
 const password = defineInputBinds("password");
 
 // handleSubmit 在所有验证通过时，才会提交表单的方法。返回一個物件 {email: xxx}
-const onSubmit = handleSubmit((values)=> {
-    console.log(values);
-    alert('验证通过时执行');
+const onSubmit = handleSubmit((values) => {
+  console.log(values);
+  alert("验证通过时执行");
 })
 </script>
 
@@ -35,12 +39,10 @@ const onSubmit = handleSubmit((values)=> {
     <h2>composition API</h2>
     <h2>ues useForm and defineInputBinds: 栏位一多，代码就多了</h2>
     <form @submit="onSubmit">
-      email<input type="text" v-bind="email" /> {{ email }} 
-      password<input
-        type="text"
-        v-bind="password"
-      />
-      {{ password }}
+      <label for="email">{{t("page1.email")}}</label>
+      <input name="email" id="email" type="text" v-bind="email" /> {{ email }}
+      <label for="password">{{ t("page1.password") }}</label>
+      <input name="password" id="password" type="text" v-bind="password" />{{ password }}
       <p>values ->{{ values }}</p>
       <p>errors -> {{ errors }}</p>
 

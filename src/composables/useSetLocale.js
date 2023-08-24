@@ -22,7 +22,7 @@ export function useSetLocale() {
     return {
         t,
         setAllLocale,
-        availableLocales
+        availableLocales,
     }
 
 }

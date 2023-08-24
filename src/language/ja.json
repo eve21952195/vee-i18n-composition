@@ -11,7 +11,11 @@
       "message": "メッセージ内容",
       "upload": "アップロード {language}",
       "picture": "写真",
-      "password": "パスワード"
+      "password": "パスワード",
+      "confirmPassword": "パスワード確認する",
+      "address": "住所",
+      "postalCode": "郵便番号",
+      "Agree to terms and conditions":"利用規約に同意する"
     },
     "common": {
       "messages": {
