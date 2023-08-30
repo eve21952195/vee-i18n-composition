@@ -18,13 +18,6 @@ const validationSchema = [
     }
 ]
 
-// const validationSchema = {
-//   fullName: "required",
-//   email: "required|email",
-//   password: "required|min:8",
-//   confirmPassword: "required|confirmed:@password",
-//   favoriteDrink: "required|one_of:coffee, tea, soda",
-// };
 
 /**
  * Only Called when the last step is submitted
@@ -78,25 +71,6 @@ const initialValues = reactive({ email: "123" });
         <ErrorMessage name="favoriteDrink" />
       </FormStep>
     </FormWizard>
-
-    <!-- <Form :validation-schema="validationSchema">
-      <Field
-        v-slot="obj"
-        name="email"
-        type="text"
-        placeholder="Type your Full name"
-      >
-        <input
-          type="text"
-          v-bind="obj.field"
-          class="form-control"
-          :class="{ 'is-invalid': obj.errors.length }"
-        />
-        <input type="text" v-bind="obj.field" class="form-control" :class="{'is-invalid': !obj.meta.valid && obj.meta.touched}">
-        <p>{{ obj }}</p>
-      </Field>
-      <ErrorMessage name="email" class="invalid-feedback" />
-    </Form> -->
   </div>
 </template>
 

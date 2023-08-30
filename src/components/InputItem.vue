@@ -16,11 +16,10 @@ const t = inject("t");
 // 要用 computed 包 t(`page1.${props.name}`)。这样才会跟着变动
 // 因为 locale 改变时， return 的 t(`page1.${props.name}`) 字串也会改变。也就是说 return 的值有变动，所以使 computed 重新渲染
 
-// useField()方法终有支持 vmodel 同步的属性。
-// syncVModel 实现了 v-model 的支持。在值 value 变化时，将会带着新值，触发emit onUpdate:modelValue 事件，往父层传。 syncVModel 相当于在 子园贱内做了一个 computed get/set
+// useField() 第一个参数(必填): input 'name'属性的值 。第二个参数: 验证规则。第三个参数: 设置初始值、label ...
 const { meta, value, errorMessage } = useField(
   props.name,
-  {},
+  undefined,
   {
     // syncVModel: true, // 啟用 v-model 同步,
     label: computed(()=> t(`page1.${props.name}`)),
@@ -38,9 +37,32 @@ const { meta, value, errorMessage } = useField(
       :id="name"
       v-model="value"
       :type="type || 'text'"
-      label=""
+      class="form-control"
+      :class="{'is-invalid': errorMessage}"
     />
-    {{ errorMessage }}
+    <p class="invalid-feedback">{{ errorMessage }}</p>
+    
   </div>
-  <!-- <p>meta: {{ meta }}</p> -->
 </template>
+
+<style scoped>
+.form-control {
+  display: block;
+  width: 20%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  background-color: rgb(24, 26, 27);
+  border-color: rgb(60, 65, 68);
+}
+.is-invalid{
+  border-color: rgb(148, 26, 37);
+}
+.invalid-feedback{
+  color: red;  
+}</style>

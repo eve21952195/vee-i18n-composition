@@ -1,10 +1,15 @@
 <script setup>
-import { reactive, computed, inject, defineProps, defineEmits } from "vue";
+// 此寫法為 統一在父元件使用 useForm、useField 拿資料。再單純傳 props，給子元件接。
+// 是為了讓子元件保持單純，內部沒用到 vee-validate，子元件複用較彈性，不會有偶合的情況。
+
+// 缺點: 由於useForm 的 vlaues 只能唯獨。 所以 value 必須從 useField 拿
+// 所以有多個欄位的話，就要重複寫多個 useField
+import { computed, inject } from "vue";
 import { useForm, useField } from "vee-validate";
 import InputItem04 from "./InputItem04.vue";
-import { reach } from "yup";
 
 const t = inject("t");
+
 // 集中宣告规则
 const schma = {
   name: "required",
@@ -17,36 +22,26 @@ const { handleSubmit, values, errors } = useForm({
   validationSchema: schma,
 });
 
-const tt = reactive({a:1})
-
-// 测试用
-// const { value } = useField('email')
-
 // 取得每个栏位的值、错误消息。
 // 要传给子层
-const { value: name, errorMessage: nameError } = useField("name", undefined, {
+const { value: name } = useField("name", undefined, {
   label: computed(() => t("page1.name")),
 });
-const { value: email, errorMessage: emailError } = useField(
-  "email",
-  undefined,
-  { label: computed(() => t("page1.email")) }
-);
-const { value: password, errorMessage: passwordError } = useField(
-  "password",
-  undefined,
-  { label: computed(() => t("page1.password")) }
-);
+const { value: email } = useField("email", undefined, {
+  label: computed(() => t("page1.email")),
+});
+const { value: password } = useField("password", undefined, {
+  label: computed(() => t("page1.password")),
+});
 
-const bindProps = (namePar,typePar) => {
-  console.log('tt', tt, tt.a)
-  console.log('values', values)
-  console.log('errors', errors)
-  console.log(errors.value)
+const bindProps = (fieldName, fieldType) => {
+  console.log("errors", errors);
+  console.log(errors.value);
   return {
-    name: namePar,
-    type: typePar,
-    errorMessage: errors['value'].name,
+    name: fieldName,
+    type: fieldType,
+    // error 是 ref物件，所以取值要記得 .value
+    errorMessage: errors.value[fieldName],
   };
 };
 
@@ -61,26 +56,24 @@ const onSubmit = handleSubmit((values) => {
     <h2>composition API</h2>
     <h2>use useField()、props 传子层</h2>
     <form @submit="onSubmit">
-      <!-- v-model 绑定 useForm 的 vlaues 无效。 因为 vules 是纯字串 不是 Ref物件-->
-      <!-- <input name="email" type="email" v-model="values.email"> -->
-      <InputItem04   v-bind="bindProps('name', 'text')" v-model="name"
+      <!-- v-model 绑定 useForm 的 vlaues 无效。據官方文件，useForm 的 vlaues 只能唯獨。不可以被操作修改，也就無法當作 v-model  -->
+      <!-- 利用 v-bind 將 props 一次綁定 -->
+      <InputItem04
+        v-bind="bindProps('name', 'text')"
+        v-model="name"
       ></InputItem04>
       <InputItem04
-        name="email"
-        type="email"
-        :errorMessage="emailError"
+        v-bind="bindProps('email', 'email')"
         v-model="email"
       ></InputItem04>
       <InputItem04
-        name="password"
-        type="password"
-        :errorMessage="passwordError"
+        v-bind="bindProps('password', 'password')"
         v-model="password"
       ></InputItem04>
       <button>送出</button>
     </form>
-    <h2>values{{ values }}</h2>
-    <h2>{{ errors }}</h2>
+    <h2>useForm-values:　{{ values }}</h2>
+    <h2>errors:　{{ errors }}</h2>
   </div>
 </template>
 
