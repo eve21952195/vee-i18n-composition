@@ -5,7 +5,7 @@ import { useField } from "vee-validate";
 const props = defineProps({
   name: String,
   type: String,
-//   modelValue: Object, // 預設的 props 名稱
+  //   modelValue: Object, // 預設的 props 名稱
 });
 
 const t = inject("t");
@@ -17,16 +17,10 @@ const t = inject("t");
 // 因为 locale 改变时， return 的 t(`page1.${props.name}`) 字串也会改变。也就是说 return 的值有变动，所以使 computed 重新渲染
 
 // useField() 第一个参数(必填): input 'name'属性的值 。第二个参数: 验证规则。第三个参数: 设置初始值、label ...
-const { meta, value, errorMessage } = useField(
-  props.name,
-  undefined,
-  {
-    // syncVModel: true, // 啟用 v-model 同步,
-    label: computed(()=> t(`page1.${props.name}`)),
-  }
-);
-
-
+const { meta, value, errorMessage } = useField(props.name, undefined, {
+  // syncVModel: true, // 啟用 v-model 同步,
+  label: computed(() => t(`page1.${props.name}`)),
+});
 </script>
 
 <template>
@@ -38,10 +32,9 @@ const { meta, value, errorMessage } = useField(
       v-model="value"
       :type="type || 'text'"
       class="form-control"
-      :class="{'is-invalid': errorMessage}"
+      :class="{ 'is-invalid': errorMessage }"
     />
     <p class="invalid-feedback">{{ errorMessage }}</p>
-    
   </div>
 </template>
 
@@ -60,9 +53,10 @@ const { meta, value, errorMessage } = useField(
   background-color: rgb(24, 26, 27);
   border-color: rgb(60, 65, 68);
 }
-.is-invalid{
+.is-invalid {
   border-color: rgb(148, 26, 37);
 }
-.invalid-feedback{
-  color: red;  
-}</style>
+.invalid-feedback {
+  color: red;
+}
+</style>

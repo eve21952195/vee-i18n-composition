@@ -25,12 +25,12 @@ provide("t", t);
     <!-- <hr> -->
     <!-- <FormItem03></FormItem03> -->
     <hr>
-    <FormItem04></FormItem04>
+    <!-- <FormItem04></FormItem04> -->
     <!-- 多步奏表单元件写法 -->
     <!-- <MultiForm></MultiForm> -->
     <!-- <hr> -->
     <!-- 多步奏表单 composition API  -->
-    <!-- <MultiFormComp></MultiFormComp> -->
+    <MultiFormComp></MultiFormComp>
   </div>
 </template>
 
